@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 
 """type-annotated function sum_list"""
-import os
-import sys
+from typing import List
 
 
-def sum_list(input_list: list[float]) -> float:
+def sum_list(input_list: List[float]) -> float:
     """sum_list function"""
     if input_list is None:
       return 0
