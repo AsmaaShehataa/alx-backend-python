@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 
-
-import math
 """annotated type of loat into floor"""
+import math
 
 
 def floor(n: float) -> int:
