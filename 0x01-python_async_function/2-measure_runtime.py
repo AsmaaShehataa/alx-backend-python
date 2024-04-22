@@ -2,13 +2,12 @@
 """measuring runtime"""
 
 import asyncio
-from time import perf_counter
+import time
 wait_n = __import__("1-concurrent_coroutines").wait_n
 
 
-async def measure_time(n: int, max_time: int) -> float:
+def measure_time(n: int, max_time: int) -> float:
     """measuring runtime"""
-    start_time = perf_counter()
+    start_time = time.time()
     asyncio.run(wait_n(n, max_time))
-    elapsed = perf_counter() - start_time
-    return elapsed / n
+    return time.time() - start_time / n
