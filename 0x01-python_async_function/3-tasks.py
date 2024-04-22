@@ -3,9 +3,9 @@
 
 import asyncio
 
-measure_time = __import__("2-measure_runtime").measure_time
+wait_random = __import__("0-basic_async_syntax.py").wait_random
 
 
 def task_wait_random(max_delay: int) -> asyncio.Task:
     """tasks"""
-    return asyncio.create_task(measure_time(max_delay))
+    return asyncio.create_task(wait_random(max_delay))
