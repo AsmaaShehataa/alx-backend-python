@@ -2,7 +2,6 @@
 """Python Async Comprehension"""
 
 import asyncio
-import random
 from typing import List
 import time
 
@@ -10,7 +9,7 @@ import time
 async_comprehension = __import__('1-async_comprehension').async_comprehension
 
 
-async def measure_runtime() -> List[float]:
+async def measure_runtime() -> List:
     """Measure runtime"""
     start = time.time()
     await asyncio.gather(*(async_comprehension() for i in range(4)))
