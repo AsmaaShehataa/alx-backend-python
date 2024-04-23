@@ -11,4 +11,6 @@ sync_generator = __import__('0-async_generator').async_generator
 
 async def async_comprehension() -> Generator[float, None, None]:
     """Async Generator"""
-    return [i async for i in sync_generator()]
+    rand_nums = [i async for i in sync_generator()]
+    return rand_nums
+
