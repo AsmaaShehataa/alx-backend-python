@@ -4,10 +4,8 @@ Test client
 """
 
 import unittest
-from urllib import response
-from parameterized import parameterized, parameterized_class
-from unittest import mock
 from unittest.mock import patch, Mock, PropertyMock
+from parameterized import parameterized
 from client import GithubOrgClient
 from fixtures import TEST_PAYLOAD
 
@@ -80,7 +78,7 @@ class TestGithubOrgClient(unittest.TestCase):
         test_class.has_license
 
     def test_public_repos_url(self):
-        """test public repos"""
+        """Test public repos"""
         with patch.object(GithubOrgClient,
                           'org',
                           new_callable=PropertyMock) as my_mock:
@@ -89,4 +87,20 @@ class TestGithubOrgClient(unittest.TestCase):
             test_repo_url = test_org._public_repos_url
             self.assertEqual(test_repo_url,
                              my_mock.return_value.get('repos_url'))
+            my_mock.assert_called_once()
+
+    @patch('client.get_json', return_value=[{'name': 'alx'},
+                                            {'name': '89'},
+                                            {'name': 'Holberton School'}])
+    def test_public_repos(self, mock_repo):
+        """Test public_repos method"""
+        with patch.object(GithubOrgClient,
+                          '_public_repos_url',
+                          new_callable=PropertyMock,
+                          return_value="https://api.github.com/") as my_mock:
+            test_client = GithubOrgClient('holberton')
+            test_repo = test_client.public_repos()
+            for idx in range(3):
+                self.assertIn(mock_repo.return_value[idx]['name'], test_repo)
+            mock_repo.assert_called_once()
             my_mock.assert_called_once()
