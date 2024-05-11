@@ -113,6 +113,6 @@ class TestGithubOrgClient(unittest.TestCase):
         """
         Test GithubOrgClient's has_license method
         """
-        test_instance = GithubOrgClient('holberton')
+        test_instance = GithubOrgClient('alx')
         license_available = test_instance.has_license(repo, license_key)
         self.assertEqual(license_available, expected)
