@@ -3,7 +3,6 @@
 Test client
 """
 
-
 import unittest
 from urllib import response
 from parameterized import parameterized, parameterized_class
@@ -17,16 +16,17 @@ class TestGithubOrgClient(unittest.TestCase):
     """TestGithubOrgClient class"""
 
     @parameterized.expand([
-        ("google"),
-        ("abc"),
+        ("google",),
+        ("abc",),
     ])
     @patch('client.get_json')
     def test_org(self, org_name, mock_get_json):
         """Test org method"""
         test_class = GithubOrgClient(org_name)
         test_class.org()
-        mock_get_json.assert_called_once_with
-        (f"https://api.github.com/orgs/{org_name}")
+        mock_get_json.assert_called_once_with(
+            f"https://api.github.com/orgs/{org_name}"
+        )
 
     @parameterized.expand([
         ("google", TEST_PAYLOAD),
@@ -78,3 +78,15 @@ class TestGithubOrgClient(unittest.TestCase):
         test_class.org()
         test_class.repos_payload()
         test_class.has_license
+
+    def test_public_repos_url(self):
+        """test public repos"""
+        with patch.object(GithubOrgClient,
+                          'org',
+                          new_callable=PropertyMock) as my_mock:
+            my_mock.return_value = {"repos_url": "89"}
+            test_org = GithubOrgClient('holberton')
+            test_repo_url = test_org._public_repos_url
+            self.assertEqual(test_repo_url,
+                             my_mock.return_value.get('repos_url'))
+            my_mock.assert_called_once()
