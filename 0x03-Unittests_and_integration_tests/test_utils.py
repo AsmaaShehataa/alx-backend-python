@@ -28,3 +28,17 @@ class TestAccessNestedMap(unittest.TestCase):
       """Test exception raised by access_nested"""
       with self.assertRaises(KeyError):
         access_nested_map(nested_map, path)
+
+class TestGetJson(unittest.TestCase):
+  """Test class to desired results"""
+
+  @parameterized.expand([
+    ("http://example.com", {"payload": True}),
+    ("http://holberton.io", {"payload": False})
+  ])
+  def test_get_json(self, url, payload):
+    """Test get_json"""
+    mock = Mock()
+    mock.json.return_value = payload
+    with patch('requests.get', return_value = mock):
+      self.assertEqual(get_json(url), payload)
