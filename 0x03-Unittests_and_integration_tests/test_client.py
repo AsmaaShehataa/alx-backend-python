@@ -150,35 +150,35 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
     Integration test for the GithubOrgClient.public_repos method
     """
     def requests_get(*args, **kwargs):
-      """
-      Function that mocks requests.get function
-      Returns the correct json data based on the given input url
-      """
-      class MockResponse:
         """
-        Mock response
+        Function that mocks requests.get function
+        Returns the correct json data based on the given input url
         """
+        class MockResponse:
+            """
+            Mock response
+            """
 
-        def __init__(self, json_data):
-          self.json_data = json_data
+            def __init__(self, json_data):
+                self.json_data = json_data
 
-        def json(self):
-          return self.json_data
+            def json(self):
+                return self.json_data
 
-      if args[0] == "https://api.github.com/orgs/google":
-        return MockResponse(TEST_PAYLOAD[0][0])
-      if args[0] == TEST_PAYLOAD[0][0]["repos_url"]:
-        return MockResponse(TEST_PAYLOAD[0][1])
+        if args[0] == "https://api.github.com/orgs/google":
+            return MockResponse(TEST_PAYLOAD[0][0])
+        if args[0] == TEST_PAYLOAD[0][0]["repos_url"]:
+            return MockResponse(TEST_PAYLOAD[0][1])
 
     @classmethod
     def setUpClass(cls):
-      """
-      Set up function for TestIntegrationGithubOrgClient class
-      Sets up a patcher to be used in the class methods
-      """
-      cls.get_patcher = patch('utils.requests.get', side_effect=requests_get)
-      cls.get_patcher.start()
-      cls.client = GithubOrgClient('google')
+        """
+        Set up function for TestIntegrationGithubOrgClient class
+        Sets up a patcher to be used in the class methods
+        """
+        cls.get_patcher = patch('utils.requests.get', side_effect=requests_get)
+        cls.get_patcher.start()
+        cls.client = GithubOrgClient('google')
 
     @classmethod
     def tearDownClass(cls):
