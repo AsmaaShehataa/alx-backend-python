@@ -109,7 +109,8 @@ class TestGithubOrgClient(unittest.TestCase):
       ({"license": {"key": "my_license"}}, "my_license", True),
       ({"license": {"key": "other_license"}}, "my_license", False)
     ])
-    def test_has_license(self):
+    def test_has_license(self, license_key, excpeted):
         """Test has_license method"""
-        test_class = GithubOrgClient("org")
-        self.assertEqual(test_class.has_license)
+        test_class = GithubOrgClient("alx")
+        license_avail = test_class.has_license(repo, license_key)
+        self.assertEqual(license_avail, excpeted)
