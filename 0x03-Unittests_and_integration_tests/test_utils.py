@@ -18,27 +18,42 @@ class TestAccessNestedMap(unittest.TestCase):
     def test_access_nested_map(self, nested_map, path, expected):
         """Test access_nested_map function."""
         self.assertEqual(access_nested_map(nested_map, path), expected)
-        
-    @parameterized.expand([
-      ({}, ("a",)),
-      ({"a": 1}, ("a", "b"))
-    ])
 
+    @parameterized.expand([
+        ({}, ("a",)),
+        ({"a": 1}, ("a", "b"))
+    ])
     def test_access_nested_map_exception(self, nested_map, path):
-      """Test exception raised by access_nested"""
-      with self.assertRaises(KeyError):
-        access_nested_map(nested_map, path)
+        """Test exception raised by access_nested_map."""
+        with self.assertRaises(KeyError):
+            access_nested_map(nested_map, path)
+
 
 class TestGetJson(unittest.TestCase):
-  """Test class to desired results"""
+    """Test class for get_json function."""
 
-  @parameterized.expand([
-    ("http://example.com", {"payload": True}),
-    ("http://holberton.io", {"payload": False})
-  ])
-  def test_get_json(self, url, payload):
-    """Test get_json"""
-    mock = Mock()
-    mock.json.return_value = payload
-    with patch('requests.get', return_value = mock):
-      self.assertEqual(get_json(url), payload)
+    @parameterized.expand([
+        ("http://example.com", {"payload": True}),
+        ("http://holberton.io", {"payload": False})
+    ])
+    def test_get_json(self, url, payload):
+        """Test get_json function."""
+        mock = Mock()
+        mock.json.return_value = payload
+        with patch('requests.get', return_value=mock):
+            self.assertEqual(get_json(url), payload)
+
+
+class TestMemoize(unittest.TestCase):
+    """Test class for memoize function."""
+
+    def test_memoize(self):
+        """Test memoize method."""
+        class TestClass:
+            """Test class self-descriptive."""
+            def a_method(self):
+                return 42
+
+        @memoize
+        def a_property(self):
+            return self.a_method()
